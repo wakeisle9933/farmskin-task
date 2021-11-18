@@ -64,8 +64,45 @@ public class JpaBookEntityRepository implements BookEntityRepository {
             }
         }
 
+        String query = "update farmskin_book " +
+                       "   set status = '대여'" +
+                       "       , mod_dttm = NOW()" +
+                       " where category = :category" +
+                       "   and name = :name";
+
+        int resultCnt = em.createQuery(query)
+                          .setParameter("category", category)
+                          .setParameter("name", name)
+                          .executeUpdate();
+
+        return name + " 대여 완료";
+    }
+
+    @Override
+    public String returnBook(String category, String name) {
+        String findQuery = "select status" +
+                           "  from farmskin_book " +
+                           " where category = :category " +
+                           "   and name = :name ";
+
+        Object exist = em.createQuery(findQuery)
+                         .setParameter("category", category)
+                         .setParameter("name", name)
+                         .getResultList().get(0);
+
+        if(exist != null) {
+            if(exist.equals("대여")) {
+                // pass
+            } else {
+                return "대여된 항목만 반납 가능합니다";
+            }
+        } else {
+            return "대여된 항목만 반납 가능합니다";
+        }
+
         String query = "update farmskin_book m " +
-                       "   set m.status = '대여'" +
+                       "   set m.status = NULL" +
+                       "       , mod_dttm = NOW()" +
                        " where m.category = :category" +
                        "   and m.name = :name";
 
@@ -74,7 +111,42 @@ public class JpaBookEntityRepository implements BookEntityRepository {
                           .setParameter("name", name)
                           .executeUpdate();
 
-        return name + " 대여 완료";
+        return name + " 반납 완료";
+    }
+
+    @Override
+    public String lossBook(String category, String name, String status, String remark) {
+        String findQuery = "select status" +
+                "  from farmskin_book " +
+                " where category = :category " +
+                "   and name = :name ";
+
+        Object exist = em.createQuery(findQuery)
+                .setParameter("category", category)
+                .setParameter("name", name)
+                .getResultList().get(0);
+
+        if(exist != null) {
+            if(exist.equals("훼손") || exist.equals("분실")) {
+                return "이미 훼손/분실된 항목입니다";
+            }
+        }
+
+        String query = "update farmskin_book " +
+                       "   set status = :status" +
+                       "       , remark = :remark" +
+                       "       , mod_dttm = NOW()" +
+                       " where category = :category" +
+                       "   and name = :name";
+
+        int resultCnt = em.createQuery(query)
+                .setParameter("status", status)
+                .setParameter("remark", remark)
+                .setParameter("category", category)
+                .setParameter("name", name)
+                .executeUpdate();
+
+        return name + " " + status + " 처리 완료";
     }
 
 }

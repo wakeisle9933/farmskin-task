@@ -16,4 +16,8 @@ public interface BookEntityRepository {
     List<FarmskinBook> findByAuthorAndName(@RequestParam(value = "author") String author, @RequestParam(value = "name") String name);
     @Transactional
     String rentBook(@RequestParam(value = "category") String category, @RequestParam(value = "name") String name);
+    @Transactional
+    String returnBook(@RequestParam(value = "category") String category, @RequestParam(value = "name") String name);
+    @Transactional
+    String lossBook(@RequestParam(value = "category") String category, @RequestParam(value = "name") String name, @RequestParam(value = "status") String status, @RequestParam(value = "remark") String remark);
 }
