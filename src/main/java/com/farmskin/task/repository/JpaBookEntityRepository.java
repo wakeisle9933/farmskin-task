@@ -1,17 +1,9 @@
 package com.farmskin.task.repository;
 
-import com.farmskin.task.controller.SearchController;
-import com.farmskin.task.domain.Category;
 import com.farmskin.task.domain.FarmskinBook;
-import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
-import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Controller;
 import org.springframework.stereotype.Repository;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.persistence.*;
-import java.util.ArrayList;
 import java.util.List;
 
 @Repository
