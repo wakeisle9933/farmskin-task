@@ -1,5 +1,6 @@
 package com.farmskin.task.repository;
 
+import com.farmskin.task.domain.Category;
 import com.farmskin.task.domain.FarmskinBook;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;

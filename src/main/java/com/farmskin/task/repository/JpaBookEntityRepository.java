@@ -1,14 +1,23 @@
 package com.farmskin.task.repository;
 
+import com.farmskin.task.controller.SearchController;
+import com.farmskin.task.domain.Category;
 import com.farmskin.task.domain.FarmskinBook;
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Controller;
 import org.springframework.stereotype.Repository;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Repository
 public class JpaBookEntityRepository implements BookEntityRepository {
+    // 카테고리 조회용
+    String findCategoryQuery = "select name from category_table ";
 
     @PersistenceContext
     private final EntityManager em;
@@ -117,14 +126,14 @@ public class JpaBookEntityRepository implements BookEntityRepository {
     @Override
     public String lossBook(String category, String name, String status, String remark) {
         String findQuery = "select status" +
-                "  from farmskin_book " +
-                " where category = :category " +
-                "   and name = :name ";
+                           "  from farmskin_book " +
+                           " where category = :category " +
+                           "   and name = :name ";
 
         Object exist = em.createQuery(findQuery)
-                .setParameter("category", category)
-                .setParameter("name", name)
-                .getResultList().get(0);
+                         .setParameter("category", category)
+                         .setParameter("name", name)
+                         .getResultList().get(0);
 
         if(exist != null) {
             if(exist.equals("훼손") || exist.equals("분실")) {
@@ -140,11 +149,11 @@ public class JpaBookEntityRepository implements BookEntityRepository {
                        "   and name = :name";
 
         int resultCnt = em.createQuery(query)
-                .setParameter("status", status)
-                .setParameter("remark", remark)
-                .setParameter("category", category)
-                .setParameter("name", name)
-                .executeUpdate();
+                          .setParameter("status", status)
+                          .setParameter("remark", remark)
+                          .setParameter("category", category)
+                          .setParameter("name", name)
+                          .executeUpdate();
 
         return name + " " + status + " 처리 완료";
     }
@@ -157,12 +166,19 @@ public class JpaBookEntityRepository implements BookEntityRepository {
                            "   and name = :name ";
 
         List exist = em.createQuery(findQuery)
-                      .setParameter("category", category)
-                      .setParameter("name", name)
-                      .getResultList();
+                       .setParameter("category", category)
+                       .setParameter("name", name)
+                       .getResultList();
 
         if(exist.size() == 0) {
             return category + " 카테고리에 " + name + " 책이 존재하지 않습니다.";
+        }
+
+        List existCategory = em.createQuery(findCategoryQuery)
+                               .getResultList();
+
+        if(!existCategory.contains(newCategory)) {
+            return "등록되지 않은 카테고리입니다. 다음 카테고리를 사용해 주세요. " + existCategory;
         }
 
         String query = "update farmskin_book" +
@@ -196,6 +212,13 @@ public class JpaBookEntityRepository implements BookEntityRepository {
 
         if(exist.size() > 0) {
             return "이미 " + category + " 카테고리에 동일한 지은이의 책이 존재합니다";
+        }
+
+        List existCategory = em.createQuery(findCategoryQuery)
+                               .getResultList();
+
+        if(!existCategory.contains(category)) {
+            return "등록되지 않은 카테고리입니다. 다음 카테고리를 사용해 주세요. " + existCategory;
         }
 
         String query = "insert into farmskin_book(category, author, name) values(:category, :author, :name)";
