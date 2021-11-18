@@ -36,8 +36,10 @@ public class JpaBookEntityRepository implements BookEntityRepository {
     public List<FarmskinBook> findByCategory(String category) {
         String query = "select m "              +
                        "  from farmskin_book m " +
-                       " where m.category = '" + category + "' ";
-        List<FarmskinBook> result = em.createQuery(query, FarmskinBook.class).getResultList();
+                       " where m.category = :category ";
+        List<FarmskinBook> result = em.createQuery(query, FarmskinBook.class)
+                                      .setParameter("category", category)
+                                      .getResultList();
         return result;
     }
 
@@ -45,9 +47,12 @@ public class JpaBookEntityRepository implements BookEntityRepository {
     public List<FarmskinBook> findByAuthorAndName(String author, String name) {
         String query = "select m "              +
                        "  from farmskin_book m " +
-                       " where m.author = '" + author + "' " +
-                       "   and m.name = '" + name + "' ";
-        List<FarmskinBook> result = em.createQuery(query, FarmskinBook.class).getResultList();
+                       " where m.author = :author " +
+                       "   and m.name = :name ";
+        List<FarmskinBook> result = em.createQuery(query, FarmskinBook.class)
+                                      .setParameter("author", author)
+                                      .setParameter("name", name)
+                                      .getResultList();
         return result;
     }
 
