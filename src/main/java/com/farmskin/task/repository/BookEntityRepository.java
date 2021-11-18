@@ -22,4 +22,6 @@ public interface BookEntityRepository {
     String lossBook(@RequestParam(value = "category") String category, @RequestParam(value = "name") String name, @RequestParam(value = "status") String status, @RequestParam(value = "remark") String remark);
     @Transactional
     String categoryChangeBook(@RequestParam(value = "category") String category, @RequestParam(value = "name") String name, @RequestParam(value = "newCategory") String newCategory);
+    @Transactional
+    String addBook(@RequestParam(value = "category") String category, @RequestParam(value = "author") String author, @RequestParam(value = "name") String name);
 }

@@ -5,11 +5,25 @@
     <title>farmskin-task</title>
 </head>
 <body>
-http://localhost:8080/search/all<br>
-http://localhost:8080/search/findByCategory?category=IT<br>
-http://localhost:8080/search/findByAuthorAndName?author=권태영&&name=너에게 해주지 못한 말들<br>
-http://localhost:8080/rent/rentBook?category=과학&&name=코스모스%20필%20무렵<br>
-http://localhost:8080/rent/returnBook?category=과학&&name=코스모스%20필%20무렵<br>
-http://localhost:8080/edit/lossBook?category=과학&&name=코스모스%20필%20무렵&&status=훼손&&remark=이유<br>
+    <strong>-----------------</strong><br>
+    <strong>Readme</strong><br>
+    <strong>-----------------</strong><br><br>
+
+    <strong>1. 전체 조회</strong><br>
+    <input type="text" value="http://211.48.72.55:8080/search/all" size="100"><br><br>
+    <strong>2. 카테고리를 이용한 조회</strong><br>
+    <input type="text" value="http://211.48.72.55:8080/search/findByCategory?category=IT" size="100"><br><br>
+    <strong>3. 지은이/이름을 이용한 조회</strong><br>
+    <input type="text" value="http://211.48.72.55:8080/search/findByAuthorAndName?author=이승열&&name=코스모스 필 무렵" size="100"><br><br>
+    <strong>4. 도서 대여</strong><br>
+    <input type="text" value="http://211.48.72.55:8080/rent/rentBook?category=과학&&name=코스모스 필 무렵" size="100"><br><br>
+    <strong>5. 도서 반납</strong><br>
+    <input type="text" value="http://211.48.72.55:8080/rent/returnBook?category=과학&&name=코스모스 필 무렵" size="100"><br><br>
+    <strong>6. 도서 훼손/분실처리</strong><br>
+    <input type="text" value="http://211.48.72.55:8080/edit/lossBook?category=과학&&name=코스모스 필 무렵&&status=훼손&&remark=사유" size="100"><br><br>
+    <strong>7. 도서 카테고리 변경</strong><br>
+    <input type="text" value="http://211.48.72.55:8080/edit/categoryChangeBook?category=IT&&name=코스모스 필 무렵&&newCategory=과학" size="100"><br><br>
+    <strong>8. 신규 도서 추가</strong><br>
+    <input type="text" value="http://211.48.72.55:8080/add/addBook?category=IT&&author=wakestand&&name=테스트책" size="100"><br><br>
 </body>
 </html>

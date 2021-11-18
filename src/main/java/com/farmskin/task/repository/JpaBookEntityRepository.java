@@ -179,4 +179,33 @@ public class JpaBookEntityRepository implements BookEntityRepository {
 
         return name + "의 카테고리를 " + category + "에서 " + newCategory + "로 변경 완료";
     }
+
+    @Override
+    public String addBook(String category, String author, String name) {
+        String findQuery = "select category" +
+                           "  from farmskin_book " +
+                           " where category = :category " +
+                           "   and author = :author " +
+                           "   and name = :name ";
+
+        List exist = em.createQuery(findQuery)
+                       .setParameter("category", category)
+                       .setParameter("author", author)
+                       .setParameter("name", name)
+                       .getResultList();
+
+        if(exist.size() > 0) {
+            return "이미 " + category + " 카테고리에 동일한 지은이의 책이 존재합니다";
+        }
+
+        String query = "insert into farmskin_book(category, author, name) values(:category, :author, :name)";
+
+        int resultCnt = em.createNativeQuery(query)
+                          .setParameter("category", category)
+                          .setParameter("author", author)
+                          .setParameter("name", name)
+                          .executeUpdate();
+
+        return category + " 카테고리에 지은이 " + author + " 도서명 " + name + "으로 추가 완료되었습니다.";
+    }
 }
